@@ -1,5 +1,7 @@
 var toBeDeleted = false;
 var operations = ["√"];
+var names = ["sqrt"];
+var htmlSpecials = ["&#8730;("];
 function NumButton(input) {
   var outputElement = document.getElementById("calcScreen").innerHTML;
   if (toBeDeleted && input >= "0" && input <= "9") {
@@ -39,19 +41,18 @@ function AllClearButton() {
 }
 
 //capture key press events from js
-document.addEventListener("keypress", function(e) {
+document.addEventListener("keydown", function(e) {
   var key = e.key;
   var keyCode = e.keyCode;
   if (key === "Enter") {
     EnterButton();
   }
-  else if (keyCode === 8) {
+  else if (key === "Backspace") {
     BackspaceButton();
-    NumButton("0");
   }
-  /*else if (key === "Delete") {
+  else if (key === "Delete") {
     AllClearButton();
-  }*/
+  }
   else if (key !== "Shift") {
     NumButton(key);
   }
@@ -72,24 +73,41 @@ function nextParen(input, index) {
   return input.length;
 }
 function personalEval(input) {
-  while (input.indexOf("√") >= 0) {
-    input = input.substring(0, input.indexOf("√")) + Math.sqrt(personalEval(input.substring(input.indexOf("√") + 1, nextParen(input, input.indexOf("√")-1))));
+  for (var i = 0; i < operations.length; i++) {
+    while (input.indexOf(operations[i]) >= 0) {
+      console.log(input);
+      input = input.substring(0, input.indexOf(operations[i])) + Math.sqrt(personalEval(input.substring(input.indexOf(operations[i]) + 1, nextParen(input, input.indexOf(operations[i]))-1)));
+    }
   }
+  input = fixParens(input);
+  console.log(input);
   return eval(input);
 }
-function ParsePareth(input) {
-
-}
-// add an event listener for the backspace key
-document.addEventListener("keydown", function(e) {
-  // I don't know why it is neccessary to use e.keyCode here as opposed to e.key which is not deprecated. 
-  var keyCode = e.keyCode;
-  if (keyCode === 8) {
-    BackspaceButton();
+function fixParens (input) {
+  var opencnt = 0, closecnt = 0;
+  for (var i = 0; i < input.length; i++) {
+    if (input[i] === "(") {
+      opencnt ++;
+    }
+    else if (input[i] === ")") {
+      closecnt ++
+    }
   }
-});
-function beautify(input) {
-  input = input.replaceAll("√", "&#8730;");
+  while(closecnt > 0) {
+    input = "(" + input;
+    closecnt--;
+  }
+  while(opencnt > 0) {
+    input = input + ")";
+    opencnt--;
+  }
+  return input;
   
+}
+
+function beautify(input) {
+  for (var i = 0; i < htmlSpecials.length; i++) {
+    input = input.replaceAll(names[i], htmlSpecials[i]);
+  }
   return input;
 }
