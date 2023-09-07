@@ -39,11 +39,9 @@ function BackspaceButton() {
 function AllClearButton() {
   document.getElementById("calcScreen").innerHTML = "0";
 }
-
 //capture key press events from js
 document.addEventListener("keydown", function(e) {
   var key = e.key;
-  var keyCode = e.keyCode;
   if (key === "Enter") {
     EnterButton();
   }
@@ -57,6 +55,15 @@ document.addEventListener("keydown", function(e) {
     NumButton(key);
   }
 });
+// END OF HTML INTERACTION
+/* 
+ * Section: calculator math
+ */
+function mathActions(input, action) {
+  if (action == operations[0]) {
+    return Math.sqrt(input);
+  }
+}
 function nextParen(input, index) {
   var opencnt = -1;
   for (var i = index; i > input.length; i+= 1) {
@@ -111,9 +118,4 @@ function beautify(input) {
     input = input.replaceAll(names[i], htmlSpecials[i]);
   }
   return input;
-}
-function mathActions(input, action) {
-  if (action == operations[0]) {
-    return Math.sqrt(input);
-  }
 }
