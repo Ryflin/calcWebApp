@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type = "text/css" href = "css/style.css" >
+  <script src="javascript/calc.js"></script>
+
+</head>
+<body>
+  <div class="Calculator face">
+    <div class = "CalculatorTop"></div>
+    <div class = "screen">
+      <p id="calcScreen">0</p>
+    </div>
+    <div class = "calculatorButtons"></div>
+      <div class="topRow">
+        <button class = "operator" onclick="AllClearButton()">AC</button>
+        <button class = "operator">+/-</button>
+        <button class = "operator" onclick="Modulus()">%</button>
+      </div>
+      <div>
+        <button class = "number" onclick="NumButton(1)">1</button>
+        <button class="number" onclick="NumButton(2)">2</button>
+        <button class="number" onclick="NumButton(3)">3</button>
+        <button class="operation" onclick="NumButton('+')">+</button>
+      </div>
+      <div>
+        <button class="number" onclick="NumButton(4)">4</button>
+        <button class="number" onclick="NumButton(5)">5</button>
+        <button class="number" onclick="NumButton(6)">6</button>
+        <button class="operationn" onclick="NumButton('-')">-</button>
+      </div>
+      <div>
+        <button class="number" onclick="NumButton(7)">7</button>
+        <button class="number" onclick="NumButton(8)">8</button>
+        <button class="number" onclick="NumButton(9)">9</button>
+        <button class="operation" onclick="NumButton('*')">&#215;</button>
+      </div>
+      <div>
+        <button class="number" onclick="NumButton(0)">0</button>
+        <button class="operation" onclick="NumButton('.')">.</button>
+        <button class="operation" onclick="BackspaceButton()">/b</button>
+        <button class="operation" onclick="EnterButton()">=</button>
+    </div>
+  </div>
+</body>
