@@ -1,5 +1,5 @@
 var toBeDeleted = false;
-
+var operations = ["√"];
 function NumButton(input) {
   var outputElement = document.getElementById("calcScreen").innerHTML;
   if (toBeDeleted && input >= "0" && input <= "9") {
@@ -56,25 +56,24 @@ document.addEventListener("keypress", function(e) {
     NumButton(key);
   }
 });
-function nextParen(input) {
-  var opencnt = 0, closedcnt = 0;
-  for (var i = input.length - 1; i >= 0; i--) {
-    if (input[i] === "(") {
+function nextParen(input, index) {
+  var opencnt = -1;
+  for (var i = index; i > input.length; i+= 1) {
+    if (input[i] == "(") {
       opencnt++;
     }
-    else if (input[i] === ")") {
+    else if (input[i] == ")") {
       opencnt--;
     }
     if (input[i] === ")" && opencnt === 0) {
-      return input.slice(0, i);
+      return i;
     }
   }
-  return 0;
+  return input.length;
 }
 function personalEval(input) {
-  while (input.indexOf("&#8730;")!== -1) {
-    input = 
-    input = input.replace("&#8730;", Math.sqrt(nextParen(input)));
+  while (input.indexOf("√") >= 0) {
+    input = input.substring(0, input.indexOf("√")) + Math.sqrt(personalEval(input.substring(input.indexOf("√") + 1, nextParen(input, input.indexOf("√")-1))));
   }
   return eval(input);
 }
@@ -83,13 +82,14 @@ function ParsePareth(input) {
 }
 // add an event listener for the backspace key
 document.addEventListener("keydown", function(e) {
-  var key = e.key;
+  // I don't know why it is neccessary to use e.keyCode here as opposed to e.key which is not deprecated. 
   var keyCode = e.keyCode;
   if (keyCode === 8) {
     BackspaceButton();
   }
 });
 function beautify(input) {
+  input = input.replaceAll("√", "&#8730;");
   
-  return input.replaceall("sqrt", "&#8730;");
+  return input;
 }
