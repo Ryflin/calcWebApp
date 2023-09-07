@@ -75,14 +75,15 @@ function nextParen(input, index) {
 function personalEval(input) {
   for (var i = 0; i < operations.length; i++) {
     while (input.indexOf(operations[i]) >= 0) {
-      console.log(input);
-      input = input.substring(0, input.indexOf(operations[i])) + Math.sqrt(personalEval(input.substring(input.indexOf(operations[i]) + 1, nextParen(input, input.indexOf(operations[i]))-1)));
+      //console.log(input);
+      input = input.substring(0, input.indexOf(operations[i])) + Math.sqrt(personalEval(input.substring(input.indexOf(operations[i]) + 1, nextParen(input, input.indexOf(operations[i])))));
+      input += input.substring(nextParen(input, input.indexOf(operations[i])) + 1, input.length);
     }
   }
   input = fixParens(input);
-  console.log(input);
-  return eval(input);
-}
+  console.log("eval: " + input);
+  return Function("return " + input)();
+} 
 function fixParens (input) {
   var opencnt = 0, closecnt = 0;
   for (var i = 0; i < input.length; i++) {
@@ -93,11 +94,11 @@ function fixParens (input) {
       closecnt ++
     }
   }
-  while(closecnt > 0) {
+  while(closecnt > 0 && closecnt != opencnt) {
     input = "(" + input;
     closecnt--;
   }
-  while(opencnt > 0) {
+  while(opencnt > 0 && opencnt!= closecnt) {
     input = input + ")";
     opencnt--;
   }
