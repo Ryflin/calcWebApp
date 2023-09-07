@@ -5,23 +5,14 @@ var names = ["sqrt"];
 var htmlSpecials = ["&#8730;("];
 function NumButton(input) {
   var outputElement = document.getElementById("calcScreen").innerHTML;
-  if (toBeDeleted) {
-    for (var i = 0; i < operationsBase.length; i++) {
-      if (input === operationsBase[i]) {
-        toBeDeleted = false;
-      }
-    }
-    if (toBeDeleted) {
-      input = "";
-    }
+  if (toBeDeleted && (input !== "+" && input!== "-" && input!== "*" && input!== "/")) {
+    outputElement = "0";
   }
   toBeDeleted = false;
-  if (outputElement === "0")
-  {
+  if (outputElement === "0") {
     outputElement = input.toString();
   }
-  else
-  {
+  else {
     outputElement += input.toString();
   }
   document.getElementById("calcScreen").innerHTML = beautify(outputElement);
@@ -107,10 +98,11 @@ function nextParen(input, index) {
   return input.length;
 }
 function personalEval(input) {
-  console.log("carrot: " + Function("return " + "2 ^ 3")());
-  /*while (input.indexOf("^") >= 0) {
+  //console.log("carrot: " + Function("return " + "2 ^ 3")());
+  while (input.indexOf("^") >= 0) {
     input = Math.pow(personalEval(input.substring(0, input.indexOf("^"))), personalEval(input.substring(input.indexOf("^") + 1, nextParen(input, input.indexOf("^")))));
-  }*/
+    console.log("pow: " + input);
+  }
   for (var i = 0; i < operations.length; i++) {
     while (input.indexOf(operations[i]) >= 0) {
       console.log(input);
