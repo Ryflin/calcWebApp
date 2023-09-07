@@ -1,11 +1,19 @@
 var toBeDeleted = false;
-var operations = ["√"];
+var operationsBase = ["+", "-", "*", "/", "√"];
+var operations = ["√", "sin", "cos", "tan", "asin", "acos", "atan"];
 var names = ["sqrt"];
 var htmlSpecials = ["&#8730;("];
 function NumButton(input) {
   var outputElement = document.getElementById("calcScreen").innerHTML;
-  if (toBeDeleted && input >= "0" && input <= "9") {
-    outputElement = "";
+  if (toBeDeleted) {
+    for (var i = 0; i < operationsBase.length; i++) {
+      if (input === operationsBase[i]) {
+        toBeDeleted = false;
+      }
+    }
+    if (toBeDeleted) {
+      input = "";
+    }
   }
   toBeDeleted = false;
   if (outputElement === "0")
@@ -63,6 +71,25 @@ function mathActions(input, action) {
   if (action == operations[0]) {
     return Math.sqrt(input);
   }
+  else if (action == "sin") {
+    return Math.sin(input);
+  }
+  else if (action == "cos") {
+    return Math.cos(input);
+  }
+  else if (action == "tan") {
+    return Math.tan(input);
+  } else if (action == "asin") {
+    return Math.asin(input);
+  }
+  else if (action == "acos") {
+    return Math.acos(input);
+  }
+  else if (action == "atan") {
+    return Math.atan(input);
+  }
+  
+  
 }
 function nextParen(input, index) {
   var opencnt = -1;
@@ -80,11 +107,15 @@ function nextParen(input, index) {
   return input.length;
 }
 function personalEval(input) {
+  console.log("carrot: " + Function("return " + "2 ^ 3")());
+  /*while (input.indexOf("^") >= 0) {
+    input = Math.pow(personalEval(input.substring(0, input.indexOf("^"))), personalEval(input.substring(input.indexOf("^") + 1, nextParen(input, input.indexOf("^")))));
+  }*/
   for (var i = 0; i < operations.length; i++) {
     while (input.indexOf(operations[i]) >= 0) {
-      //console.log(input);
-      input = input.substring(0, input.indexOf(operations[i])) + mathActions(personalEval(input.substring(input.indexOf(operations[i]) + 1, nextParen(input, input.indexOf(operations[i])))), operations[i]);
-      input += input.substring(nextParen(input, input.indexOf(operations[i])) + 1, input.length);
+      console.log(input);
+      input = input.substring(0, input.indexOf(operations[i])) + mathActions(personalEval(input.substring(input.indexOf(operations[i]) + operations[i].length, nextParen(input, input.indexOf(operations[i])))), operations[i]);
+      input += input.substring(nextParen(input, input.indexOf(operations[i])) + operations[i].length, input.length);
     }
   }
   input = fixParens(input);
@@ -112,7 +143,12 @@ function fixParens (input) {
   return input;
   
 }
-
+/*
+ * //////////////////////////////////////////////////////////////////////////
+ * /////////////////////////////////////////////////////////////////////////
+ * Section: site interaction
+ * 
+ */
 function beautify(input) {
   for (var i = 0; i < htmlSpecials.length; i++) {
     input = input.replaceAll(names[i], htmlSpecials[i]);
