@@ -76,7 +76,7 @@ function personalEval(input) {
   for (var i = 0; i < operations.length; i++) {
     while (input.indexOf(operations[i]) >= 0) {
       //console.log(input);
-      input = input.substring(0, input.indexOf(operations[i])) + Math.sqrt(personalEval(input.substring(input.indexOf(operations[i]) + 1, nextParen(input, input.indexOf(operations[i])))));
+      input = input.substring(0, input.indexOf(operations[i])) + mathActions(personalEval(input.substring(input.indexOf(operations[i]) + 1, nextParen(input, input.indexOf(operations[i])))), operations[i]);
       input += input.substring(nextParen(input, input.indexOf(operations[i])) + 1, input.length);
     }
   }
@@ -111,4 +111,9 @@ function beautify(input) {
     input = input.replaceAll(names[i], htmlSpecials[i]);
   }
   return input;
+}
+function mathActions(input, action) {
+  if (action == operations[0]) {
+    return Math.sqrt(input);
+  }
 }
