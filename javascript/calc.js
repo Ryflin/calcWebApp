@@ -100,7 +100,7 @@ function nextParen(input, index) {
 function personalEval(input) {
   //console.log("carrot: " + Function("return " + "2 ^ 3")());
   while (input.indexOf("^") >= 0) {
-    input = Math.pow(personalEval(input.substring(0, input.indexOf("^"))), personalEval(input.substring(input.indexOf("^") + 1, nextParen(input, input.indexOf("^")))));
+    input = "" + Math.pow(personalEval(input.substring(0, input.indexOf("^"))), personalEval(input.substring(input.indexOf("^") + 1, nextParen(input, input.indexOf("^")))));
     console.log("pow: " + input);
   }
   for (var i = 0; i < operations.length; i++) {
