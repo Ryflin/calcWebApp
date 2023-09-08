@@ -1,8 +1,8 @@
 var toBeDeleted = false;
 var operationsBase = ["+", "-", "*", "/", "√"];
-var operations = ["√", "sin", "cos", "tan", "asin", "acos", "atan"];
-var names = ["sqrt"];
-var htmlSpecials = ["&#8730;("];
+var operations = ["√", "sin", "cos", "tan", "asin", "acos", "atan", "ln", "e"];
+var names = ["sqrt", "e"];
+var htmlSpecials = ["&#8730;(", "&#101;("];
 function NumButton(input) {
   var outputElement = document.getElementById("calcScreen").innerHTML;
   if (toBeDeleted && (input !== "+" && input!== "-" && input!== "*" && input!== "/")) {
@@ -50,7 +50,7 @@ document.addEventListener("keydown", function(e) {
   else if (key === "Delete") {
     AllClearButton();
   }
-  else if (key !== "Shift") {
+  else if (key !== "Shift" && key !== "Tab" && key !== "Alt" && !(key.includes("Arrow")) && key !== "Control") {
     NumButton(key);
   }
 });
@@ -79,7 +79,9 @@ function mathActions(input, action) {
   else if (action == "atan") {
     return Math.atan(input);
   }
-  
+  else if (action == "ln") {
+    return Math.log(input);
+  }
   
 }
 function nextParen(input, index) {
@@ -145,5 +147,9 @@ function beautify(input) {
   for (var i = 0; i < htmlSpecials.length; i++) {
     input = input.replaceAll(names[i], htmlSpecials[i]);
   }
+  if (input === "e")
   return input;
+}
+function eHandler (input) {
+  
 }
