@@ -144,12 +144,8 @@ function fixParens (input) {
  * 
  */
 function beautify(input) {
-  for (var i = 0; i < htmlSpecials.length; i++) {
+for (var i = 0; i < htmlSpecials.length; i++) {
     input = input.replaceAll(names[i], htmlSpecials[i]);
   }
-  if (input === "e")
   return input;
-}
-function eHandler (input) {
-  
 }
